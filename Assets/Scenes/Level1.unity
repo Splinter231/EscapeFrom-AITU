@@ -939,7 +939,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 415634627}
+      - m_Target: {fileID: 415634629}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
@@ -9060,7 +9060,7 @@ Transform:
   m_GameObject: {fileID: 887894551}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.0245, y: 30.58, z: 0}
+  m_LocalPosition: {x: 61.0245, y: 30.415, z: 0}
   m_LocalScale: {x: 1.8889, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18718,7 +18718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 415634627}
+      - m_Target: {fileID: 415634629}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: GoToMainMenu
         m_Mode: 1
