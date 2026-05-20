@@ -26,6 +26,11 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded)
+        {
+            return;
+        }
+
         if (player == null)
         {
             return;

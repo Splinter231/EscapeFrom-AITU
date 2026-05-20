@@ -39,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded)
+        {
+            return;
+        }
+
         if (isDashing)
         {
             return;
@@ -55,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded)
+        {
+            return;
+        }
+
         if (isDashing)
         {
             return;

@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
     public GameObject winPanel;
     public GameObject losePanel;
 
-    private bool gameEnded;
+    public bool IsGameEnded { get; private set; }
 
     void Awake()
     {
         Instance = this;
         Time.timeScale = 1f;
+        IsGameEnded = false;
     }
 
     void Start()
@@ -42,6 +43,11 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
+        if (IsGameEnded)
+        {
+            return;
+        }
+
         score += amount;
 
         if (HUDManager.Instance != null)
@@ -52,6 +58,11 @@ public class GameManager : MonoBehaviour
 
     public void CollectKey()
     {
+        if (IsGameEnded)
+        {
+            return;
+        }
+
         hasKey = true;
 
         if (HUDManager.Instance != null)
@@ -62,12 +73,12 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        if (gameEnded)
+        if (IsGameEnded)
         {
             return;
         }
 
-        gameEnded = true;
+        IsGameEnded = true;
         SaveHighScore();
 
         if (winPanel != null)
@@ -80,12 +91,12 @@ public class GameManager : MonoBehaviour
 
     public void LoseGame()
     {
-        if (gameEnded)
+        if (IsGameEnded)
         {
             return;
         }
 
-        gameEnded = true;
+        IsGameEnded = true;
 
         if (losePanel != null)
         {

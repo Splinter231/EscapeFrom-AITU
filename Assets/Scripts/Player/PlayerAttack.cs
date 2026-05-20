@@ -46,6 +46,11 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded)
+        {
+            return;
+        }
+
         UpdateAttackPointsDirection();
 
         if (Input.GetKeyDown(KeyCode.Alpha1))

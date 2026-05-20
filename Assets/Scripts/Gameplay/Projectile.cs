@@ -27,6 +27,10 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded)
+        {
+            return;
+        }
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
     }
 
