@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -80,6 +81,13 @@ public class GameManager : MonoBehaviour
 
         IsGameEnded = true;
         SaveHighScore();
+
+        StartCoroutine(ShowWinPanelAfterAnimation());
+    }
+
+    private System.Collections.IEnumerator ShowWinPanelAfterAnimation()
+    {
+        yield return new WaitForSeconds(1f);
 
         if (winPanel != null)
         {

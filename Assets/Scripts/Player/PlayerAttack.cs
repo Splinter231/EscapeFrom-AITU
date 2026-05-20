@@ -35,7 +35,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
 
         if (audioSource == null)
@@ -184,7 +184,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetTrigger("Attack");
+            animator.SetTrigger("Shoot");
         }
 
         if (rangedAttackSound != null && audioSource != null)

@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         if (HUDManager.Instance != null)
         {

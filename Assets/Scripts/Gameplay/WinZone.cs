@@ -9,6 +9,13 @@ public class WinZone : MonoBehaviour
             return;
         }
 
+        Animator playerAnimator = other.GetComponentInChildren<Animator>();
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("Win");
+        }
+
         GameManager.Instance.WinGame();
     }
 }

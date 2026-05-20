@@ -843,6 +843,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01de458002f96744dad78a1dc1f12700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  score: 0
+  hasKey: 0
+  winPanel: {fileID: 0}
+  losePanel: {fileID: 0}
 --- !u!4 &167719285
 Transform:
   m_ObjectHideFlags: 0
@@ -9189,11 +9193,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1024569881 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 582471481045458782, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-  m_PrefabInstance: {fileID: 1889088240}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1034023394
 GameObject:
   m_ObjectHideFlags: 0
@@ -15632,30 +15631,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2294055035503978534, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 1024569881}
-    - target: {fileID: -2294055035503978534, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: meleeAttackSound
-      value: 
-      objectReference: {fileID: 8300000, guid: fd1f1f34d77d4334698812a9f8f2d125, type: 3}
-    - target: {fileID: -2294055035503978534, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: rangedAttackSound
-      value: 
-      objectReference: {fileID: 8300000, guid: a3d80644ef1bd7a41b3a6ad98dc606b6, type: 3}
-    - target: {fileID: 5394513448965821077, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: dashSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 8e592cc657c65ac42b785038f8547bb5, type: 3}
-    - target: {fileID: 5394513448965821077, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 1024569881}
-    - target: {fileID: 5853893267680982665, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
-      propertyPath: m_SortingOrder
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6879737449103801770, guid: 8faa2196dd3efae44a71d1ea7d2216c3, type: 3}
       propertyPath: m_Name
       value: Player
