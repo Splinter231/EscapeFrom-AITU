@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c14a23d28911243b8462952fb03c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 40
+  maxHealth: 100
   currentHealth: 0
   scoreValue: 150
   deathEffect: {fileID: 2387910443938863720, guid: 7f69708c19c76e64da88d620b480286c, type: 3}
@@ -206,7 +206,7 @@ MonoBehaviour:
   enemyProjectilePrefab: {fileID: 263551028485353802, guid: e4a7a9e982937d1438bdc666e26bbd7d, type: 3}
   shootPoint: {fileID: 1400264445516442344}
   projectileSpeed: 6
-  projectileDamage: 50
+  projectileDamage: 25
   shootingCooldown: 1.5
 --- !u!82 &2856051349042939658
 AudioSource:

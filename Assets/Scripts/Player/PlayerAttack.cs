@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public enum WeaponType
 {
@@ -11,12 +13,26 @@ public class PlayerAttack : MonoBehaviour
     [Header("Current Weapon")]
     public WeaponType currentWeapon = WeaponType.Melee;
 
-    [Header("Melee Attack")]
+    [Header("Melee Flashlight Attack")]
     public Transform attackPoint;
-    public float meleeAttackRange = 1.4f;
+    public float meleeAttackRange = 2.2f;
     public float meleeAttackAngle = 90f;
     public int meleeDamage = 25;
     public LayerMask enemyLayer;
+
+    [Header("Melee Spot Light")]
+    public Light2D meleeSpotLight;
+    public float spotLightIntensity = 5f;
+    public float spotLightDuration = 0.18f;
+
+    [Tooltip("How far the spotlight is moved forward toward the cursor.")]
+    public float spotLightForwardOffset = 0.2f;
+
+    [Tooltip("Local offset for placing the spotlight near the character's hands.")]
+    public Vector2 spotLightLocalOffset = new Vector2(0f, 0.35f);
+
+    [Tooltip("Use 0, 90, or -90 if the cone points in the wrong direction.")]
+    public float spotLightRotationOffset = 0f;
 
     [Header("Ranged Attack")]
     public GameObject projectilePrefab;
@@ -24,23 +40,39 @@ public class PlayerAttack : MonoBehaviour
     public float projectileSpeed = 8f;
     public int projectileDamage = 20;
 
+    [Header("Cooldowns")]
+    public float meleeCooldown = 0.45f;
+    public float rangedCooldown = 0.6f;
+
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip meleeAttackSound;
     public AudioClip rangedAttackSound;
     public AudioClip weaponSwitchSound;
 
-    private Animator animator;
+    [Header("Animation")]
+    public Animator animator;
+
     private Camera mainCamera;
+    private float nextAttackTime;
 
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+
         mainCamera = Camera.main;
 
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
+        }
+
+        if (meleeSpotLight != null)
+        {
+            meleeSpotLight.intensity = 0f;
         }
     }
 
@@ -51,7 +83,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        UpdateAttackPointsDirection();
+        UpdateAttackDirectionObjects();
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -69,7 +101,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void UpdateAttackPointsDirection()
+    void UpdateAttackDirectionObjects()
     {
         Vector2 directionToMouse = GetDirectionToMouse();
 
@@ -82,6 +114,15 @@ public class PlayerAttack : MonoBehaviour
         {
             shootPoint.localPosition = directionToMouse * 0.8f;
         }
+
+        if (meleeSpotLight != null)
+        {
+            Vector2 finalSpotPosition = directionToMouse * spotLightForwardOffset + spotLightLocalOffset;
+            meleeSpotLight.transform.localPosition = finalSpotPosition;
+
+            float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg;
+            meleeSpotLight.transform.rotation = Quaternion.Euler(0f, 0f, angle + spotLightRotationOffset);
+        }
     }
 
     Vector2 GetDirectionToMouse()
@@ -91,9 +132,12 @@ public class PlayerAttack : MonoBehaviour
             mainCamera = Camera.main;
         }
 
-        Vector3 mouseScreenPosition = Input.mousePosition;
-        Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+        if (mainCamera == null)
+        {
+            return Vector2.right;
+        }
 
+        Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPosition.z = 0f;
 
         Vector2 direction = mouseWorldPosition - transform.position;
@@ -120,17 +164,24 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack()
     {
+        if (Time.time < nextAttackTime)
+        {
+            return;
+        }
+
         if (currentWeapon == WeaponType.Melee)
         {
-            MeleeAttack();
+            nextAttackTime = Time.time + meleeCooldown;
+            MeleeFlashlightAttack();
         }
         else if (currentWeapon == WeaponType.Ranged)
         {
+            nextAttackTime = Time.time + rangedCooldown;
             RangedAttack();
         }
     }
 
-    void MeleeAttack()
+    void MeleeFlashlightAttack()
     {
         if (animator != null)
         {
@@ -141,6 +192,8 @@ public class PlayerAttack : MonoBehaviour
         {
             audioSource.PlayOneShot(meleeAttackSound);
         }
+
+        StartCoroutine(FlashSpotLight());
 
         Vector2 attackDirection = GetDirectionToMouse();
 
@@ -153,7 +206,6 @@ public class PlayerAttack : MonoBehaviour
         foreach (Collider2D enemyCollider in possibleEnemies)
         {
             Vector2 directionToEnemy = enemyCollider.transform.position - transform.position;
-
             float angleToEnemy = Vector2.Angle(attackDirection, directionToEnemy);
 
             if (angleToEnemy <= meleeAttackAngle / 2f)
@@ -166,6 +218,20 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator FlashSpotLight()
+    {
+        if (meleeSpotLight == null)
+        {
+            yield break;
+        }
+
+        meleeSpotLight.intensity = spotLightIntensity;
+
+        yield return new WaitForSeconds(spotLightDuration);
+
+        meleeSpotLight.intensity = 0f;
     }
 
     void RangedAttack()
@@ -210,24 +276,14 @@ public class PlayerAttack : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, meleeAttackRange);
 
-        Vector2 direction;
-
-        if (Application.isPlaying)
-        {
-            direction = GetDirectionToMouse();
-        }
-        else
-        {
-            direction = Vector2.right;
-        }
+        Vector2 direction = Application.isPlaying ? GetDirectionToMouse() : Vector2.right;
 
         Vector3 leftBoundary = Quaternion.Euler(0, 0, meleeAttackAngle / 2f) * direction;
         Vector3 rightBoundary = Quaternion.Euler(0, 0, -meleeAttackAngle / 2f) * direction;
 
-        Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + leftBoundary * meleeAttackRange);
         Gizmos.DrawLine(transform.position, transform.position + rightBoundary * meleeAttackRange);
     }

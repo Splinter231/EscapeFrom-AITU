@@ -33,7 +33,12 @@ public class EnemyHealth : MonoBehaviour
 
         if (deathEffect != null)
         {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("Death effect is not assigned on " + gameObject.name);
         }
 
         if (deathSound != null)

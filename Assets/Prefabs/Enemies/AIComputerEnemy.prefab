@@ -278,10 +278,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1920610dd9a319e458db8baf64cc3973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  moveSpeed: 2
-  detectionRange: 6
+  moveSpeed: 4
+  detectionRange: 7
   attackRange: 1
-  damage: 10
+  damage: 30
   attackCooldown: 1.2
 --- !u!114 &3859040414865939357
 MonoBehaviour:
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c14a23d28911243b8462952fb03c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 50
+  maxHealth: 100
   currentHealth: 0
   scoreValue: 100
   deathEffect: {fileID: 2387910443938863720, guid: 7f69708c19c76e64da88d620b480286c, type: 3}
