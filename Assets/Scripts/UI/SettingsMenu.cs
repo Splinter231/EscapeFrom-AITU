@@ -9,26 +9,52 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
-        float volume = PlayerPrefs.GetFloat("Volume", 1f);
+        EnsureAudioManagerExists();
+
+        float savedVolume = PlayerPrefs.GetFloat(AudioManager.VolumeKey, 1f);
         int shadows = PlayerPrefs.GetInt("Shadows", 1);
 
-        volumeSlider.value = volume;
-        shadowsToggle.isOn = shadows == 1;
+        if (volumeSlider != null)
+        {
+            volumeSlider.SetValueWithoutNotify(savedVolume);
+            volumeSlider.onValueChanged.RemoveListener(ChangeVolume);
+            volumeSlider.onValueChanged.AddListener(ChangeVolume);
+        }
 
-        AudioListener.volume = volume;
+        if (shadowsToggle != null)
+        {
+            shadowsToggle.SetIsOnWithoutNotify(shadows == 1);
+            shadowsToggle.onValueChanged.RemoveListener(ToggleShadows);
+            shadowsToggle.onValueChanged.AddListener(ToggleShadows);
+        }
+
+        AudioListener.volume = savedVolume;
         QualitySettings.shadows = shadows == 1 ? ShadowQuality.All : ShadowQuality.Disable;
+    }
+
+    void EnsureAudioManagerExists()
+    {
+        if (AudioManager.Instance != null)
+        {
+            return;
+        }
+
+        GameObject audioManagerObject = new GameObject("AudioManager");
+        audioManagerObject.AddComponent<AudioManager>();
     }
 
     public void ChangeVolume(float value)
     {
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat("Volume", value);
-        PlayerPrefs.Save();
+        EnsureAudioManagerExists();
+        AudioManager.Instance.SetVolume(value);
+
+        Debug.Log("Volume changed to: " + value);
     }
 
     public void ToggleShadows(bool isOn)
     {
         QualitySettings.shadows = isOn ? ShadowQuality.All : ShadowQuality.Disable;
+
         PlayerPrefs.SetInt("Shadows", isOn ? 1 : 0);
         PlayerPrefs.Save();
     }
