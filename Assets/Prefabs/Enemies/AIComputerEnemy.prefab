@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 1887000411209841438, guid: a75274274245ac14db885deb158d283c, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,7 +161,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.8057143, y: 1.4457142}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -298,5 +298,5 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   scoreValue: 100
-  deathEffect: {fileID: 0}
-  deathSound: {fileID: 0}
+  deathEffect: {fileID: 2387910443938863720, guid: 7f69708c19c76e64da88d620b480286c, type: 3}
+  deathSound: {fileID: 8300000, guid: d9b5fd8a4d22e1e4c9c4321b2998f5f8, type: 3}
