@@ -368,8 +368,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   walkSpeed: 4
   runSpeed: 7
+  dashDistance: 3
+  dashDuration: 0.15
+  dashCooldown: 2
   audioSource: {fileID: 0}
-  jumpSound: {fileID: 0}
+  dashSound: {fileID: 0}
 --- !u!114 &-2294055035503978534
 MonoBehaviour:
   m_ObjectHideFlags: 0
